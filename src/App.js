@@ -1,25 +1,31 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+
+import routes from "./routes";
+import PageSpinner from "./pages/utility/PageSpinner";
+import E404 from "./pages/error/E404";
+
 
 function App() {
+
+  const publicRoutes = routes.map(r => <Route key={r.path} exact path={r.path} component={React.lazy(() => import(`./pages/${r.file}`))} /> );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Suspense fallback={<PageSpinner />} >
+      <Router>
+        <Switch>
+          {
+            publicRoutes
+          }
+          <Route component={E404} status={404}/>
+        </Switch>
+      </Router>
+    </React.Suspense>
   );
 }
 
