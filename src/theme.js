@@ -11,6 +11,7 @@ export const theme = createMuiTheme({
     },
   },
   typography: {
+    color: "#4a4a4a",
     fontSize: 13,
     fontWeightLight: 300,
     htmlFontSize: 16,
